@@ -56,7 +56,10 @@
                                 </td>
 
                                 <td>
-                                    <div class="img-wrap" v-if="each.image === null"></div>
+                                    <div class="img-wrap no-image" v-if="each.image === null"></div>
+                                    <div class="img-wrap has-image" v-if="each.image != null">
+                                        <img :src="product_image_path" alt="">
+                                    </div>
                                 </td>
                                 <td class="text-end position-relative">
                                     <a class="option-btn outsideClick px-3" @click="toggleDropdown($event)">
@@ -203,8 +206,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="manageModalLabel">
-                            <span v-if="productParam.id === null">Create Product</span>
-                            <span v-if="productParam.id != null">Update Product</span>
+                            <span v-if="productParam.id === ''">Create Product</span>
+                            <span v-if="productParam.id != ''">Update Product</span>
                         </h1>
                         <button type="button" class="btn-close" @click="productModal(3)"></button>
                     </div>
@@ -238,9 +241,18 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label for="image-input" class="upload-wrap">
-                                    <input type="file" class="d-none" id="image-input">
+                                    <input type="file" class="d-none" id="image-input" @change="attachFile($event)"  accept="image/png, image/gif, image/jpeg">
                                     Upload image
                                 </label>
+                            </div>
+
+                            <div class="brand-wrap position-relative" v-if="productParam.image != null">
+                                <div class="branding-logo-wrap">
+                                    <img :src="product_image_path" class="img-fluid logo" alt="Product image">
+                                </div>
+                                <div class="remove-icon btn-icon" @click="removeImage">
+                                    <img :src="`/images/trash.svg`" alt="delete">
+                                </div>
                             </div>
 
 
@@ -305,6 +317,7 @@ export default {
             createLoading: false,
             deleteLoading: false,
             listLoading: false,
+            imageLoading: false,
             tableData: [],
             productParam: {
                 name: '',
@@ -312,6 +325,7 @@ export default {
                 description: '',
                 image: null,
             },
+            product_image_path:null,
             Param: {
                 keyword: '',
                 date: 'today',
@@ -355,6 +369,7 @@ export default {
             console.log(this.productParam)
             if (type === 1) {
                 this.productParam = {
+                    id:'',
                     name: '',
                     price: '',
                     description: '',
@@ -368,7 +383,7 @@ export default {
                     name: data.name,
                     price: data.price,
                     description: data.description,
-                    image: null,
+                    image: data.image,
                 }
                 let modal = new bootstrap.Modal(document.getElementById('manageModal'))
                 modal.show();
@@ -380,9 +395,9 @@ export default {
         },
 
         manageProduct() {
-            this.createLoading = true
+            this.createLoading = true;
             let url = null;
-            if (this.productParam.id === null || this.productParam.id === '') {
+            if (this.productParam.id === '') {
                 url = apiRoutes.ProductCreate
             } else {
                 url = apiRoutes.ProductUpdate
@@ -400,6 +415,28 @@ export default {
             })
         },
 
+        /* branding logo attachment */
+        attachFile(event) {
+            this.imageLoading = true;
+            let file = event.target.files[0];
+            let formData = new FormData();
+            formData.append("file", file)
+            formData.append("media_type", 1);
+            apiService.UPLOAD(apiRoutes.Media, formData, (res) => {
+                event.target.value = ''
+                this.imageLoading = false
+                if (res.status === 200) {
+                    this.productParam.image = res.data.id
+                    this.product_image_path = res.data.full_file_path
+                }
+            })
+
+        },
+
+        removeImage(){
+            this.productParam.image = null
+            this.product_image_path =  null
+        },
 
         /*pagination functions*/
         PrevPage() {
@@ -469,6 +506,8 @@ export default {
             apiService.POST(apiRoutes.ProductDelete,this.delete_param,(res) =>{
                 this.deleteLoading = false;
                 if (res.status === 200){
+                    toaster.info(res.msg)
+                    this.getList();
                     this.ManageDeleteModal(2,null)
                 }
             })

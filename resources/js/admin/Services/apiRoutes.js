@@ -7,6 +7,9 @@ const apiRoutes = {
     ProductList: apiVersion + 'product/list',
     ProductSingle: apiVersion + 'product/single',
     ProductDelete: apiVersion + 'product/delete',
+
+    /*Media*/
+    Media: apiVersion + 'media/upload',
 }
 
 export default apiRoutes

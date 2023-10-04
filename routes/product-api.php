@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MediaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -20,4 +21,9 @@ Route::prefix('product')->group(function (){
     Route::post('update',[ProductController::class,'update'])->name('Product.update');
     Route::post('list',[ProductController::class,'list'])->name('Product.list');
     Route::post('delete',[ProductController::class,'delete'])->name('Product.delete');
+});
+
+// Media
+Route::prefix('media')->group(function () {
+    Route::post('upload', [MediaController::class, 'Upload'])->name('API.MEDIA.UPLOAD');
 });
