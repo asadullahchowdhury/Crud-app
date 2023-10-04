@@ -1,0 +1,28 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "axios": "^1.1.2",
+        "bootstrap": "^5.2.0",
+        "laravel-vite-plugin": "^0.8.0",
+        "lodash": "^4.17.19",
+        "postcss": "^8.1.14",
+        "sass": "^1.54.0",
+        "vite": "^4.0.0",
+        "vue-router": "^4.1.3",
+        "vuex": "^4.0.2"
+    },
+    "dependencies": {
+        "@meforma/vue-toaster": "^1.3.0",
+        "@vitejs/plugin-vue": "^4.4.0",
+        "@vueup/vue-quill": "^1.0.0-beta.9",
+        "jquery": "^3.6.0",
+        "vue": "^3.2.37",
+        "vue-page-transition": "^0.2.2",
+        "vue-toastr": "^3.0.3"
+    }
+}
