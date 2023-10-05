@@ -11,4 +11,30 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    @media screen and (max-width: 991px) {
+        max-width: 200px;
+    }
+}
+
+
+.res-desc{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+.res-img-wrap{
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    object-fit: cover;
+    @media screen and (max-width: 567px) {
+        height: 100px;
+    }
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 }

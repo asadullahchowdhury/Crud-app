@@ -1,18 +1,22 @@
 <template>
     <div class="container">
-        <div class="page-header d-flex justify-content-between align-items-center my-5">
-            <div class="form-group">
+        <!--page header start-->
+        <div class="page-header d-flex justify-content-between align-items-center my-md-5 my-3">
+            <div class="form-group position-relative">
                 <input type="text" class="form-control" placeholder="Search" v-model="param.keyword"
                        @keyup="SearchData">
+                <img class="search-icon" :src="`/images/search.svg`" alt="search">
             </div>
-            <button type="button" class="btn btn-outline-dark" @click="productModal(1,null)">Add New
+            <button type="button" class="btn btn-outline-dark h-45" @click="productModal(1,null)"><span
+                class="d-sm-inline-block d-none">Add</span> New
                 Product
             </button>
         </div>
+        <!--page header end  -->
 
+        <!--page content start-->
         <div class="page-content">
-
-            <div class="card list-card p-3 rounded-4">
+            <div class="card list-card p-3 mb-3 rounded-4">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
                     <h3 class="card-title">Products</h3>
                     <a href="javascript:void(0)" class="btn btn-icon" v-if="selectedData.length > 0"
@@ -21,10 +25,10 @@
                     </a>
                 </div>
 
-
-                <div class="card-body" v-if="listLoading === false  && tableData.length > 0">
-                    <div class="table-wrap table-responsive">
-                        <table class="table table-borderless">
+                <!--main table-->
+                <div class="card-body d-md-block d-none" v-if="listLoading === false  && tableData.length > 0">
+                    <div class="table-wrap h-100 table-responsive">
+                        <table class="table table-borderless table-hover">
                             <thead>
                             <tr>
                                 <th class="checkbox-wrap">
@@ -91,11 +95,51 @@
                             </tbody>
                         </table>
                     </div>
-
                 </div>
 
+                <!--responsive table start-->
+                <div class="card-body d-md-none d-block">
+                    <div class="res-table-wrap">
+                        <!--each responsive table data-->
+                        <div class="each-td-res mb-3" v-for="(each,index) in tableData">
+                            <div class="card rounded-4">
+                                <div class="p-3">
+                                    <div class="row">
+                                        <div class="col-10 mb-3">
+                                            <div class="res-img-wrap rounded-4 shadow-sm">
+                                                <img :src="each.media.full_file_path" alt="product image"
+                                                     class="img-fluid">
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input"
+                                                       :checked="checkIfChecked(each.id)"
+                                                       @change="toggleCheck($event, each.id)">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-6"><strong>Name :</strong></div>
+                                        <div class="col-sm-8 col-6 text-end">{{ each.name }}</div>
+
+                                        <div class="col-sm-3 col-6"><strong>price :</strong></div>
+                                        <div class="col-sm-8 col-6 text-end">{{ each.price }}</div>
+
+                                        <div class="col-12"><strong>Description :</strong></div>
+                                        <div class="col-12 res-desc">{{ each.description }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--each responsive table data-->
+                    </div>
+                </div>
+                <!--responsive table end  -->
+
+                <!--main table-->
+
+
+                <!--no data start-->
                 <div class="card-body" v-if="listLoading === false  && tableData.length === 0">
-                    <!--no data start-->
                     <div class="page-no-data-text">
                         <div class="icon mb-5">
                             <img :src="`/images/no-data.svg`" alt="no data">
@@ -103,8 +147,8 @@
                         <div class="text mb-3">There are currently no products.</div>
                         <span>Click “New” to add new products.</span>
                     </div>
-                    <!--no data end  -->
                 </div>
+                <!--no data end  -->
 
                 <!--loading-->
                 <div class="card-body" v-if="listLoading === true">
@@ -120,7 +164,7 @@
 
                 <div class="card-footer border-0 bg-white">
                     <!-- Pagination Start -->
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center" v-if="listLoading === false  && tableData.length > 0">
                         <div class="pagination">
                             <div class="page-item" @click="PrevPage()">
                                 <a class="page-link" href="#">
@@ -210,6 +254,7 @@
 
             </div>
         </div>
+        <!--page content end  -->
 
         <!--Product  Modal start-->
         <div class="modal fade" id="manageModal" tabindex="-1" aria-labelledby="manageModal" aria-hidden="true">
@@ -270,11 +315,12 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary w-100px" @click="productModal(3)">Close
+                            <button type="button" class="btn btn-secondary h-45 w-100px" @click="productModal(3)">Close
                             </button>
-                            <button type="submit" class="btn btn-primary w-100px" v-if="createLoading !=true">Confirm
+                            <button type="submit" class="btn btn-outline-dark h-45 w-100px" v-if="createLoading !=true">
+                                Confirm
                             </button>
-                            <button type="button" class="btn btn-primary btn-loading w-100px"
+                            <button type="button" class="btn btn-outline-dark h-45 btn-loading w-100px"
                                     v-if="createLoading === true"></button>
                         </div>
 
@@ -358,11 +404,24 @@ export default {
             }
         }
     },
+
     mounted() {
+        // =========================
+        // Product list
+        // =========================
         this.getList();
+
+        // =========================
+        // Outside click
+        // =========================
         this.outsideClick();
     },
+
     methods: {
+
+        // =========================
+        // Product list
+        // =========================
         getList() {
             this.listLoading = true;
             apiService.POST(apiRoutes.ProductList, this.param, (res) => {
@@ -378,12 +437,14 @@ export default {
             })
         },
 
-
+        // =========================
+        // Product modal open/close
+        // =========================
         productModal(type, data = null) {
 
             if (type === 1) {
                 this.productParam = {
-                    id:'',
+                    id: '',
                     name: '',
                     price: '',
                     description: '',
@@ -411,6 +472,9 @@ export default {
             }
         },
 
+        // =========================
+        // Product api (create/update)
+        // =========================
         manageProduct() {
             this.createLoading = true;
             let url = null;
@@ -423,9 +487,9 @@ export default {
                 this.createLoading = false
                 if (res.status === 200) {
                     console.log('api')
-                    this.productModal(3,null);
+                    this.productModal(3, null);
                     this.getList();
-                    this.product_image_path =  this.tableData.media.full_file_path;
+                    this.product_image_path = this.tableData.media.full_file_path;
                     toaster.info(res.msg)
                 } else {
                     apiService.ErrorHandler(res.errors)
@@ -434,7 +498,9 @@ export default {
             })
         },
 
-        /* product image attachment */
+        // =========================
+        // Product image attachment
+        // =========================
         attachFile(event) {
             this.imageLoading = true;
             let file = event.target.files[0];
@@ -452,12 +518,17 @@ export default {
 
         },
 
+        // =========================
+        // Product image remove
+        // =========================
         removeImage() {
             this.productParam.image = null
             this.product_image_path = null
         },
 
-        /*pagination functions*/
+        // =========================
+        // pagination previous
+        // =========================
         PrevPage() {
             if (this.current_page > 1) {
                 this.current_page = this.current_page - 1;
@@ -465,6 +536,9 @@ export default {
             }
         },
 
+        // =========================
+        // pagination next
+        // =========================
         NextPage() {
             if (this.current_page < this.total_pages) {
                 this.current_page = this.current_page + 1;
@@ -472,13 +546,18 @@ export default {
             }
         },
 
+        // =========================
+        // pagination per page
+        // =========================
         pageChange(page) {
             this.current_page = page;
             this.getList();
         },
 
 
-        /*option dropdown*/
+        // =========================
+        // dropdown toggle
+        // =========================
         toggleDropdown(e) {
             let visitorDrop = e.currentTarget.querySelector('.dropdown-wrapper')
             if (visitorDrop.classList.contains('active')) {
@@ -490,7 +569,9 @@ export default {
         },
 
 
-        /*outside click*/
+        // =========================
+        // Outside click
+        // =========================
         outsideClick() {
             document.addEventListener('mouseup', function (e) {
                 const containers = Array.from(document.querySelectorAll('.outsideClick'));
@@ -506,7 +587,9 @@ export default {
             });
         },
 
-        /* delete modal show/hide */
+        // =========================
+        // Delete modal show/hide
+        // =========================
         ManageDeleteModal(type, id) {
             if (type === 1) {
                 let myModal = new bootstrap.Modal(document.getElementById('deleteModal'))
@@ -520,7 +603,9 @@ export default {
             }
         },
 
-
+        // =========================
+        // Product delete api
+        // =========================
         deleteProduct() {
             this.deleteLoading = true;
             console.log(this.delete_param.id)
@@ -535,7 +620,9 @@ export default {
             })
         },
 
-        // Search Data
+        // =========================
+        // Search data
+        // =========================
         SearchData() {
             clearInterval(this.searchTimeOut);
             this.highlightText()
@@ -546,7 +633,9 @@ export default {
         },
 
 
-        /* highlight text*/
+        // =========================
+        // Text Highlighter
+        // =========================
         highlightText() {
             const searchText = this.param.keyword.replace(/\)/g, '\\)');
             const pattern = new RegExp(searchText, "gi");
@@ -560,7 +649,9 @@ export default {
         },
 
 
-        /*check all data*/
+        // =========================
+        // Check all data
+        // =========================
         toggleCheckAll(e) {
             if (e.target.checked) {
                 this.tableData.forEach((each, index) => {
@@ -573,7 +664,9 @@ export default {
             }
         },
 
-        /*toggleCheck*/
+        // =========================
+        // Check single
+        // =========================
         toggleCheck(e, id) {
             if (e.target.checked) {
                 if (!this.checkIfExists(id)) {
@@ -589,12 +682,16 @@ export default {
         },
 
 
-        /*check if exists*/
+        // =========================
+        // Check if checked
+        // =========================
         checkIfChecked(id) {
             return this.selectedData.indexOf(id) > -1;
         },
 
-        /*check if exists*/
+        // =========================
+        // Check if checked
+        // =========================
         checkIfExists(id) {
             return this.selectedData.includes(id);
         }
