@@ -2,7 +2,8 @@
     <div class="container">
         <div class="page-header d-flex justify-content-between align-items-center my-5">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
+                <input type="text" class="form-control" placeholder="Search" v-model="param.keyword"
+                       @keyup="SearchData">
             </div>
             <button type="button" class="btn btn-outline-dark" @click="productModal(1,null)">Add New
                 Product
@@ -12,19 +13,25 @@
         <div class="page-content">
 
             <div class="card list-card p-3 rounded-4">
-                <div class="card-header bg-white">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
                     <h3 class="card-title">Products</h3>
+                    <a href="javascript:void(0)" class="btn btn-icon" v-if="selectedData.length > 0"
+                       @click="ManageDeleteModal(1,selectedData)">
+                        <img :src="`/images/trash.svg`" alt="trash">
+                    </a>
                 </div>
 
 
                 <div class="card-body" v-if="listLoading === false  && tableData.length > 0">
-                    <div class="table-wrap">
+                    <div class="table-wrap table-responsive">
                         <table class="table table-borderless">
                             <thead>
                             <tr>
                                 <th class="checkbox-wrap">
                                     <label class="form-check ">
-                                        <input class="form-check-input" type="checkbox">
+                                        <input class="form-check-input" type="checkbox"
+                                               :checked="tableData.length > 0 && tableData.length === selectedData.length"
+                                               @change="toggleCheckAll($event),console.log(selectedData)">
                                     </label>
                                 </th>
 
@@ -40,11 +47,13 @@
                             <tbody>
                             <tr v-for="(each,index) in tableData">
                                 <td class="checkbox-wrap">
-                                    <label class="form-check ">
-                                        <input class="form-check-input" type="checkbox">
+                                    <label class="form-check">
+                                        <input class="form-check-input" type="checkbox"
+                                               :checked="checkIfChecked(each.id)"
+                                               @change="toggleCheck($event, each.id)">
                                     </label>
                                 </td>
-                                <td>
+                                <td class="text-highlight">
                                     {{ each.name }}
                                 </td>
                                 <td>
@@ -52,13 +61,15 @@
                                 </td>
 
                                 <td>
-                                    {{ each.description }}
+                                    <div class="desc">
+                                        {{ each.description }}
+                                    </div>
                                 </td>
 
                                 <td>
                                     <div class="img-wrap no-image" v-if="each.image === null"></div>
                                     <div class="img-wrap has-image" v-if="each.image != null">
-                                        <img :src="product_image_path" alt="">
+                                        <img :src="each.media.full_file_path" alt="">
                                     </div>
                                 </td>
                                 <td class="text-end position-relative">
@@ -209,7 +220,7 @@
                             <span v-if="productParam.id === ''">Create Product</span>
                             <span v-if="productParam.id != ''">Update Product</span>
                         </h1>
-                        <button type="button" class="btn-close" @click="productModal(3)"></button>
+                        <button type="button" class="btn-close" @click="productModal(3,null)"></button>
                     </div>
                     <form @submit.prevent="manageProduct">
                         <div class="modal-body">
@@ -241,7 +252,8 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label for="image-input" class="upload-wrap">
-                                    <input type="file" class="d-none" id="image-input" @change="attachFile($event)"  accept="image/png, image/gif, image/jpeg">
+                                    <input type="file" class="d-none" id="image-input" @change="attachFile($event)"
+                                           accept="image/png, image/gif, image/jpeg">
                                     Upload image
                                 </label>
                             </div>
@@ -319,17 +331,18 @@ export default {
             listLoading: false,
             imageLoading: false,
             tableData: [],
+            selectedData: [],
             productParam: {
                 name: '',
                 price: '',
                 description: '',
                 image: null,
             },
-            product_image_path:null,
-            Param: {
+            product_image_path: null,
+            param: {
                 keyword: '',
                 date: 'today',
-                limit: 1,
+                limit: 10,
             },
 
             /*Pagination Variables*/
@@ -357,6 +370,7 @@ export default {
                 if (res.status == 200) {
                     this.tableData = res.data.data
 
+
                     this.total_pages = res.data.total < res.data.per_page ? 1 : Math.ceil((res.data.total / res.data.per_page))
                     this.current_page = res.data.current_page;
                     this.buttons = [...Array(this.total_pages).keys()].map(i => i + 1);
@@ -366,7 +380,7 @@ export default {
 
 
         productModal(type, data = null) {
-            console.log(this.productParam)
+
             if (type === 1) {
                 this.productParam = {
                     id:'',
@@ -387,7 +401,8 @@ export default {
                 }
                 let modal = new bootstrap.Modal(document.getElementById('manageModal'))
                 modal.show();
-            } else {
+            } else if (type === 3) {
+                console.log('hide')
                 const Modal = document.querySelector('#manageModal');
                 const Instance = bootstrap.Modal.getInstance(Modal);
                 Instance.hide();
@@ -405,8 +420,10 @@ export default {
             apiService.POST(url, this.productParam, (res) => {
                 this.createLoading = false
                 if (res.status === 200) {
-                    this.productModal(3);
+                    console.log('api')
+                    this.productModal(3,null);
                     this.getList();
+                    this.product_image_path =  this.tableData.media.full_file_path;
                     toaster.info(res.msg)
                 } else {
                     apiService.ErrorHandler(res.errors)
@@ -415,7 +432,7 @@ export default {
             })
         },
 
-        /* branding logo attachment */
+        /* product image attachment */
         attachFile(event) {
             this.imageLoading = true;
             let file = event.target.files[0];
@@ -433,9 +450,9 @@ export default {
 
         },
 
-        removeImage(){
+        removeImage() {
             this.productParam.image = null
-            this.product_image_path =  null
+            this.product_image_path = null
         },
 
         /*pagination functions*/
@@ -492,6 +509,7 @@ export default {
             if (type === 1) {
                 let myModal = new bootstrap.Modal(document.getElementById('deleteModal'))
                 this.delete_param.id = id
+                console.log(this.delete_param)
                 myModal.show()
             } else {
                 var myModalEl = document.getElementById('deleteModal');
@@ -501,16 +519,82 @@ export default {
         },
 
 
-        deleteProduct(){
+        deleteProduct() {
             this.deleteLoading = true;
-            apiService.POST(apiRoutes.ProductDelete,this.delete_param,(res) =>{
+            console.log(this.delete_param.id)
+            apiService.POST(apiRoutes.ProductDelete, this.delete_param, (res) => {
                 this.deleteLoading = false;
-                if (res.status === 200){
+                if (res.status === 200) {
                     toaster.info(res.msg)
+                    this.selectedData = []
                     this.getList();
-                    this.ManageDeleteModal(2,null)
+                    this.ManageDeleteModal(2, null)
                 }
             })
+        },
+
+        // Search Data
+        SearchData() {
+            clearInterval(this.searchTimeOut);
+            this.highlightText()
+            this.searchTimeOut = setTimeout(() => {
+                this.current_page = 1;
+                this.getList();
+            }, 800)
+        },
+
+
+        /* highlight text*/
+        highlightText() {
+            const searchText = this.param.keyword.replace(/\)/g, '\\)');
+            const pattern = new RegExp(searchText, "gi");
+            const wrappers = document.querySelectorAll('.text-highlight');
+            wrappers.forEach(wrapper => {
+
+                if (wrapper) {
+                    wrapper.innerHTML = wrapper.textContent.replace(pattern, match => searchText == '' ? '' : `<mark>${match}</mark>`);
+                }
+            })
+        },
+
+
+        /*check all data*/
+        toggleCheckAll(e) {
+            if (e.target.checked) {
+                this.tableData.forEach((each, index) => {
+                    if (!this.checkIfExists(each.id)) {
+                        this.selectedData.push(each.id)
+                    }
+                })
+            } else {
+                this.selectedData = []
+            }
+        },
+
+        /*toggleCheck*/
+        toggleCheck(e, id) {
+            if (e.target.checked) {
+                if (!this.checkIfExists(id)) {
+                    this.selectedData.push(id)
+                }
+            } else {
+                this.selectedData.forEach((v, i) => {
+                    if (v === id) {
+                        this.selectedData.splice(i, 1)
+                    }
+                })
+            }
+        },
+
+
+        /*check if exists*/
+        checkIfChecked(id) {
+            return this.selectedData.indexOf(id) > -1;
+        },
+
+        /*check if exists*/
+        checkIfExists(id) {
+            return this.selectedData.includes(id);
         }
 
     }

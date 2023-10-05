@@ -224,3 +224,16 @@ min-height: 38px;
 
     }
 }
+
+
+::-webkit-scrollbar{
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: #eee;
+}
+
+.vh-75{
+    height: 75vh;
+}

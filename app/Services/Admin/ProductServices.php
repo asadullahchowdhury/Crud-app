@@ -43,15 +43,15 @@ class ProductServices
     public static function list($request)
     {
         try {
-            $limit = $request->limit ?? '';
-            $keyword = $request->keyword ?? '';
-            $products = Product::select('*')
+            $limit = $request->limit ?? 20;
+
+            $products = Product::with('media')->select('*')
                 ->where(
                     function ($q) use ($request) {
-                        if (!empty($request->q)) {
-                            $q->where('name', 'LIKE', '%' . $request->q . '%');
-                            $q->where('price', 'LIKE', '%' . $request->q . '%');
-                            $q->orWhere('description', 'LIKE', '%' . $request->q . '%');
+                        if (!empty($request->keyword)) {
+                            $q->where('name', 'LIKE', '%' . $request->keyword . '%');
+                            $q->where('price', 'LIKE', '%' . $request->keyword . '%');
+                            $q->orWhere('description', 'LIKE', '%' . $request->keyword . '%');
                         }
                     }
                 )
