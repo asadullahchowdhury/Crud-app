@@ -106,7 +106,7 @@ class ProductServices
             if ($validator->fails()) {
                 return ['status' => 500, 'errors' => $validator->errors()];
             }
-            Product::where('id', $request->id)->delete();
+            Product::whereIn('id', $request->id)->delete();
             return ['status' => 200, 'msg' => 'Product has been deleted successfully'];
         } catch (\Exception $e) {
             return ['status' => 500, 'errors' => $e->getMessage(), 'line' => $e->getLine()];

@@ -399,6 +399,8 @@ export default {
                     description: data.description,
                     image: data.image,
                 }
+                this.product_image_path = data.media.full_file_path
+                console.log(data)
                 let modal = new bootstrap.Modal(document.getElementById('manageModal'))
                 modal.show();
             } else if (type === 3) {
