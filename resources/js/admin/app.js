@@ -1,9 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css'
-import "bootstrap/dist/js/bootstrap.bundle.min"
-import "bootstrap/dist/js/bootstrap.min"
-import "bootstrap/js/dist/collapse"
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min'
+window.bootstrap = bootstrap
+
 import axios from "axios";
 import Toaster from "@meforma/vue-toaster";
+
 
 /*
 * *******************************************************************
