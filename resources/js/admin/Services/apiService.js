@@ -55,6 +55,7 @@ const apiService = {
 
 
     ErrorHandler(errors) {
+        console.log($('.form-group'),'form')
         $('.is-invalid').removeClass('is-invalid');
         $('.error-report').html('');
         $('.error-report-g').html('');

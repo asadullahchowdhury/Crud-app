@@ -16,10 +16,10 @@
 
         <!--page content start-->
         <div class="page-content">
-            <div class="card list-card p-3 mb-3 rounded-4">
+            <div class="card list-card p-3 mb-3 rounded-4 shadow border-0">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
                     <h3 class="card-title">Products</h3>
-                    <a href="javascript:void(0)" class="btn btn-icon" v-if="selectedData.length > 0"
+                    <a href="javascript:void(0)" class="btn btn-icon btn-light" v-if="selectedData.length > 0"
                        @click="ManageDeleteModal(1,selectedData)">
                         <img :src="`/images/trash.svg`" alt="trash">
                     </a>
@@ -71,8 +71,8 @@
                                 </td>
 
                                 <td>
-                                    <div class="img-wrap no-image" v-if="each.image === null"></div>
-                                    <div class="img-wrap has-image" v-if="each.image != null">
+                                    <div class="img-wrap no-image shadow-sm" v-if="each.image === null"></div>
+                                    <div class="img-wrap has-image shadow-sm" v-if="each.image != null">
                                         <img :src="each.media.full_file_path" alt="">
                                     </div>
                                 </td>
@@ -364,7 +364,7 @@
 import apiService from "../Services/apiService.js";
 import apiRoutes from "../Services/apiRoutes.js";
 import {createToaster} from "@meforma/vue-toaster";
-import ApiService from "../Services/apiService.js";
+
 
 const toaster = createToaster({
     position: 'top-right',
@@ -486,14 +486,12 @@ export default {
             apiService.POST(url, this.productParam, (res) => {
                 this.createLoading = false
                 if (res.status === 200) {
-                    console.log('api')
                     this.productModal(3, null);
                     this.getList();
                     this.product_image_path = this.tableData.media.full_file_path;
                     toaster.info(res.msg)
                 } else {
                     apiService.ErrorHandler(res.errors)
-                    console.log(ApiService.ErrorHandler(res.errors))
                 }
             })
         },

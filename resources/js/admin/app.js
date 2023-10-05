@@ -1,6 +1,19 @@
+import 'bootstrap/dist/css/bootstrap.css'
 import "bootstrap/dist/js/bootstrap.bundle.min"
+import "bootstrap/dist/js/bootstrap.min"
+import "bootstrap/js/dist/collapse"
 import axios from "axios";
 import Toaster from "@meforma/vue-toaster";
+
+/*
+* *******************************************************************
+*  Jquery
+* *******************************************************************
+* */
+import jQuery from "jquery";
+const $ = jQuery;
+window.$ = $;
+
 
 
 import App from "./App.vue";
