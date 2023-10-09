@@ -1,13 +1,66 @@
 .auth-page {
-    //background-color: rgba(31, 31, 31, 0.8);
     height: 100vh;
     max-height: 100vh;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .auth-box{
-        max-width: 350px;
+    overflow: hidden;
+    padding: 20px;
+
+    .auth-bg-wrap {
         width: 100%;
+        text-align: center;
+        position: absolute;
+        top: 100px;
+        right: 0;
+        @media screen and (max-width: 576px) {
+            top: 20px;
+        }
+
+        img {
+            max-width: 100%;
+        }
+    }
+
+    .auth-box {
+        position: relative;
+        width: 100%;
+        height: 100%;
+
+
+        .auth-form {
+            //backdrop-filter: blur(5px);
+            max-width: 400px;
+            width: 100%;
+
+            .logo {
+                height: auto;
+
+                img {
+                    max-width: 300px;
+                    object-fit: cover;
+                    @media screen and (max-width: 576px) {
+                        max-width: 200px;
+                    }
+                }
+            }
+
+            .form-group {
+                .form-icon {
+                    position: absolute;
+                    top: 9px;
+                    left: 20px;
+                }
+
+                .eye-icon {
+                    position: absolute;
+                    right: 15px;
+                    top: 9px;
+                }
+
+                .form-control {
+                    height: 40px;
+                    padding-left: 50px;
+                }
+            }
+        }
     }
 }
