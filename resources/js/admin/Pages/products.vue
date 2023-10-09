@@ -60,12 +60,12 @@
                                 <td class="text-highlight">
                                     {{ each.name }}
                                 </td>
-                                <td>
+                                <td class="text-highlight">
                                     {{ each.price }}
                                 </td>
 
-                                <td>
-                                    <div class="desc">
+                                <td class="">
+                                    <div class="desc text-highlight">
                                         {{ each.description }}
                                     </div>
                                 </td>
@@ -389,7 +389,7 @@ export default {
             param: {
                 keyword: '',
                 date: 'today',
-                limit: 1,
+                limit: 10,
                 page: 1,
             },
 
@@ -435,6 +435,9 @@ export default {
                     this.total_pages = res.data.total < res.data.per_page ? 1 : Math.ceil((res.data.total / res.data.per_page))
                     this.current_page = res.data.current_page;
                     this.buttons = [...Array(this.total_pages).keys()].map(i => i + 1);
+                    setTimeout(()=>{
+                        this.highlightText()
+                    }, 100)
                 }
             })
         },

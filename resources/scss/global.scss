@@ -294,12 +294,17 @@
 }
 
 
-.router-link-exact-active{
+.router-link-exact-active {
     font-weight: 500;
 }
 
 
-
-.error-report{
+.error-report {
     font-size: 12px;
+}
+
+
+mark {
+    padding-left: 0;
+    padding-right: 0;
 }

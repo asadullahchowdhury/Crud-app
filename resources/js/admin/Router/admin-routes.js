@@ -5,10 +5,14 @@ import Layout from "../Layout/layout.vue";
 import Home from "../Pages/home.vue";
 import Products from "../Pages/products.vue";
 import Categories from "../Pages/categories.vue";
+import Login from "../Pages/auth/login.vue"
 
 
 const ROOT_URL = "/admin"
 const routes = [
+    // Authentication
+    {path: ROOT_URL + '/auth', redirect: {name: 'Login'}},
+    {path: ROOT_URL + '/auth/login', name: 'Login', component: Login, meta: {title: 'Login'}},
 
     {
         path: ROOT_URL, name: 'Layout' , component:Layout,

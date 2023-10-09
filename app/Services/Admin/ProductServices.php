@@ -50,7 +50,7 @@ class ProductServices
                     function ($q) use ($request) {
                         if (!empty($request->keyword)) {
                             $q->where('name', 'LIKE', '%' . $request->keyword . '%');
-                            $q->where('price', 'LIKE', '%' . $request->keyword . '%');
+                            $q->orWhere('price', 'LIKE', '%' . $request->keyword . '%');
                             $q->orWhere('description', 'LIKE', '%' . $request->keyword . '%');
                         }
                     }

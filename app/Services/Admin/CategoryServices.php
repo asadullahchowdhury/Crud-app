@@ -97,7 +97,7 @@ class CategoryServices
                 return ['status' => 500, 'errors' => $validator->errors()];
             }
             Categories::whereIn('id', $request->id)->delete();
-            return ['status' => 200, 'msg' => 'Product has been deleted successfully'];
+            return ['status' => 200, 'msg' => 'Category has been deleted successfully'];
         } catch (\Exception $e) {
             return ['status' => 500, 'errors' => $e->getMessage(), 'line' => $e->getLine()];
         }

@@ -3,7 +3,7 @@
         <!--page header start-->
         <div class="page-header d-flex justify-content-between align-items-center my-md-5 my-3">
             <div class="form-group position-relative">
-                <input type="text" class="form-control" placeholder="Search">
+                <input type="text" class="form-control" placeholder="Search" v-model="param.keyword" @keyup="SearchData()">
                 <img class="search-icon" :src="`/images/search.svg`" alt="search">
             </div>
             <button type="button" class="btn btn-outline-dark h-45" @click="categoryModal(1,null)"><span
@@ -317,8 +317,8 @@ export default {
             param: {
                 keyword: '',
                 date: 'today',
-                limit: 2,
-                page:1
+                limit: 10,
+                page: 1
             },
             tableData: [],
 
@@ -410,6 +410,9 @@ export default {
                     this.total_pages = res.data.total < res.data.per_page ? 1 : Math.ceil((res.data.total / res.data.per_page))
                     this.current_page = res.data.current_page;
                     this.buttons = [...Array(this.total_pages).keys()].map(i => i + 1);
+                    setTimeout(()=>{
+                        this.highlightText()
+                    }, 10)
                 }
             })
         },
