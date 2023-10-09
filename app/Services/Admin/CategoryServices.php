@@ -40,18 +40,16 @@ class CategoryServices
         try {
             $limit = $request->limit ?? 20;
 
-            $products = Categories::with('media')->select('*')
+            $category = Categories::select('*')
                 ->where(
                     function ($q) use ($request) {
                         if (!empty($request->keyword)) {
                             $q->where('name', 'LIKE', '%' . $request->keyword . '%');
-                            $q->where('price', 'LIKE', '%' . $request->keyword . '%');
-                            $q->orWhere('description', 'LIKE', '%' . $request->keyword . '%');
                         }
                     }
                 )
                 ->paginate($limit);
-            return ['status' => 200, 'data' => $products];
+            return ['status' => 200, 'data' => $category];
         } catch (\Exception $e) {
             return ['status' => 500, 'errors' => $e->getMessage(), 'line' => $e->getLine()];
         }
@@ -68,21 +66,16 @@ class CategoryServices
                 [
                     'id' => 'required',
                     'name' => 'required',
-                    'price' => 'required',
-                    'description' => 'required',
                 ]
             );
 
             if ($validator->fails()) {
                 return ['status' => 500, 'errors' => $validator->errors()];
             }
-            $product = Categories::where('id', $request->id)->first();
-            $product->name = $request->name;
-            $product->price = $request->price;
-            $product->description = $request->description;
-            $product->image = $request->image ?? null;
-            $product->save();
-            return ['status' => 200, 'msg' => 'Product has been Updated successfully.'];
+            $category = Categories::where('id', $request->id)->first();
+            $category->name = $request->name;
+            $category->save();
+            return ['status' => 200, 'msg' => 'Category has been Updated successfully.'];
 
         } catch (\Exception $e) {
             return ['status' => 500, 'errors' => $e->getMessage(), 'line' => $e->getLine()];

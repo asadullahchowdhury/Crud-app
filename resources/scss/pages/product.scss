@@ -1,12 +1,12 @@
-.upload-wrap{
+.upload-wrap {
     padding: 6px 12px;
     border: 1px solid #d9d8d8;
     border-radius: 5px;
-
+    width: 150px;
 }
 
 
-.desc{
+.desc {
     max-width: 400px;
     overflow: hidden;
     white-space: nowrap;
@@ -17,14 +17,14 @@
 }
 
 
-.res-desc{
+.res-desc {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 
-.res-img-wrap{
+.res-img-wrap {
     width: 100%;
     height: 150px;
     overflow: hidden;
@@ -32,7 +32,8 @@
     @media screen and (max-width: 567px) {
         height: 100px;
     }
-    img{
+
+    img {
         width: 100%;
         height: 100%;
         object-fit: cover;

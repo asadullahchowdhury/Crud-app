@@ -276,7 +276,7 @@
                                 </div>
                                 <input class="form-control" placeholder="Product Name" name="name"
                                        v-model="productParam.name">
-                                <div class="error-report text-danger d-block" style="font-size: 12px"></div>
+                                <div class="error-report text-danger"></div>
                             </div>
                             <div class="form-group mb-3">
                                 <div class="form-label">
@@ -284,7 +284,7 @@
                                 </div>
                                 <input class="form-control" placeholder="Product Price" name="price"
                                        v-model="productParam.price">
-                                <div class="error-report text-danger d-block" style="font-size: 12px"></div>
+                                <div class="error-report text-danger"></div>
                             </div>
                             <div class="form-group mb-3 ">
                                 <div class="form-label">
@@ -293,13 +293,14 @@
                                 <textarea id="" cols="30" rows="4" class="form-control"
                                           v-model="productParam.description"
                                           placeholder="Product description" name="description"></textarea>
-                                <div class="error-report text-danger d-block" style="font-size: 12px"></div>
+                                <div class="error-report text-danger"></div>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="image-input" class="upload-wrap">
                                     <input type="file" class="d-none" id="image-input" @change="attachFile($event)"
                                            accept="image/png, image/gif, image/jpeg">
-                                    Upload image
+                                    Upload image <span class="ms-2" v-if="imageLoading != true"> <img :src="`/images/upload.svg`" alt="upload"></span>
+                                    <span v-if="imageLoading === true" class="btn-loading ms-2"></span>
                                 </label>
                             </div>
 
@@ -388,7 +389,8 @@ export default {
             param: {
                 keyword: '',
                 date: 'today',
-                limit: 10,
+                limit: 1,
+                page: 1,
             },
 
             /*Pagination Variables*/
@@ -424,12 +426,12 @@ export default {
         // =========================
         getList() {
             this.listLoading = true;
+            this.param.page = this.current_page;
             apiService.POST(apiRoutes.ProductList, this.param, (res) => {
                 this.listLoading = false;
                 if (res.status == 200) {
                     this.tableData = res.data.data
-
-
+                    // pagination
                     this.total_pages = res.data.total < res.data.per_page ? 1 : Math.ceil((res.data.total / res.data.per_page))
                     this.current_page = res.data.current_page;
                     this.buttons = [...Array(this.total_pages).keys()].map(i => i + 1);
@@ -441,7 +443,7 @@ export default {
         // Product modal open/close
         // =========================
         productModal(type, data = null) {
-
+            apiService.ClearErrorHandler();
             if (type === 1) {
                 this.productParam = {
                     id: '',
