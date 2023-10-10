@@ -13,7 +13,7 @@ use App\Http\Controllers\AdminController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+Route::middleware('AdminLoginCheck')->get('/admin/auth/{any}', [AdminController::class, 'index'])->where('any', '.*')->name('lvs.auth');
 Route::middleware('AdminLoginCheck')->get('/admin', [AdminController::class,'index'])->where('any','.*')->name('lvs.home');
 Route::middleware('AdminLoginCheck')->get('/admin/{any}', [AdminController::class,'index'])->where('any','.*')->name('lvs.home');
 Route::middleware('AdminLoginCheck')->get('/admin', function (){ return redirect()->route('lvs.home','home'); });

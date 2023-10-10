@@ -12,7 +12,8 @@ import apiRoutes from "../Services/apiRoutes.js";
 
 export default {
     data() {
-        return {}
+        return {
+        }
     },
 
     mounted() {
