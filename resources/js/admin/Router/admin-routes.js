@@ -5,7 +5,8 @@ import Layout from "../Layout/layout.vue";
 import Home from "../Pages/home.vue";
 import Products from "../Pages/products.vue";
 import Categories from "../Pages/categories.vue";
-import Login from "../Pages/auth/login.vue"
+import Login from "../Pages/auth/login.vue";
+import Register from "../Pages/auth/register.vue";
 
 
 const ROOT_URL = "/admin"
@@ -13,6 +14,7 @@ const routes = [
     // Authentication
     {path: ROOT_URL + '/auth', redirect: {name: 'Login'}},
     {path: ROOT_URL + '/auth/login', name: 'Login', component: Login, meta: {title: 'Login'}},
+    {path: ROOT_URL + '/auth/register', name: 'Register', component: Register, meta: {title: 'Register'}},
 
     {
         path: ROOT_URL, name: 'Layout' , component:Layout,

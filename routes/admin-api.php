@@ -21,6 +21,7 @@ use App\Http\Controllers\AdminAuthController;
 
 Route::group(['middleware' => ['AdminAuth'], 'prefix' => 'auth'], function () {
     Route::post('login', [AdminAuthController::class, 'login'])->name('Auth.login');
+    Route::post('register', [AdminAuthController::class, 'register'])->name('Auth.Register');
 });
 
 

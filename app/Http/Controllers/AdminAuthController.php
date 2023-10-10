@@ -12,4 +12,8 @@ class AdminAuthController extends Controller
         $rv = AdminAuthService::login($request);
         return response()->json($rv, 200);
     }
+    public function register(Request  $request){
+        $rv = AdminAuthService::register($request);
+        return response()->json($rv, 200);
+    }
 }

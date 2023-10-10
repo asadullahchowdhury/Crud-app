@@ -43,22 +43,55 @@
                 }
             }
 
-            .form-group {
-                .form-icon {
-                    position: absolute;
-                    top: 9px;
-                    left: 20px;
-                }
+            &.login-form {
+                .form-group {
+                    .form-icon {
+                        position: absolute;
+                        top: 9px;
+                        left: 20px;
+                    }
 
-                .eye-icon {
-                    position: absolute;
-                    right: 15px;
-                    top: 9px;
-                }
+                    .eye-icon {
+                        position: absolute;
+                        right: 15px;
+                        top: 9px;
+                    }
 
-                .form-control {
-                    height: 40px;
-                    padding-left: 50px;
+                    .form-control {
+                        height: 40px;
+                        padding-left: 50px;
+                    }
+                }
+            }
+            &.reg-form{
+                .form-group{
+                    .form-control{
+                        height: 40px;
+                        padding-left: 25px;
+                    }
+                }
+            }
+
+            .auth-bottom {
+                a {
+                    position: relative;
+
+                    &:before {
+                        position: absolute;
+                        content: '';
+                        width: 100%;
+                        height: 1px;
+                        background-color: #000;
+                        transform-origin: center;
+                        transform: scale(0);
+                        bottom: -5px;
+                        transition: .3s all ease-in-out;
+                    }
+
+                    &:hover:before {
+                        transform: scale(1);
+                        transition: .3s all ease-in-out;
+                    }
                 }
             }
         }

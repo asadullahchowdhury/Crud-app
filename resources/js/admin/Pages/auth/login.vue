@@ -6,13 +6,14 @@
         </div>
         <div class="auth-box d-flex justify-content-center align-items-center">
 
-            <form @submit.prevent="login()" class="auth-form py-5 px-4 rounded-5 shadow-lg bg-white">
+            <form @submit.prevent="login()" class="auth-form login-form py-5 px-4 rounded-5 shadow-lg bg-white">
                 <div class="logo text-center mb-5">
                     <img :src="`/images/Rahat-logo.png`" alt="logo" class="img-fluid">
                 </div>
                 <div class="error-report-g text-center"></div>
                 <div class="form-group position-relative mb-3">
-                    <input type="text" class="form-control shadow-none rounded-pill" placeholder="Enter Your Email" v-model="param.email"
+                    <input type="text" class="form-control shadow-none rounded-pill" placeholder="Enter Your Email"
+                           v-model="param.email"
                            name="email">
                     <div class="form-icon">
                         <img :src="`/images/mail.svg`" alt="mail">
@@ -22,7 +23,8 @@
                 </div>
 
                 <div class="form-group position-relative mb-3">
-                    <input :type="passwordFieldType" class="form-control shadow-none rounded-pill" v-model="param.password"
+                    <input :type="passwordFieldType" class="form-control shadow-none rounded-pill"
+                           v-model="param.password"
                            placeholder="Enter Your Password"
                            name="password">
                     <div class="form-icon">
@@ -43,8 +45,15 @@
                     </label>
                 </div>
                 <div class="form-group text-center">
-                    <button type="submit" class="btn btn-outline-dark w-50 rounded-pill" v-if="loading != true">Login</button>
-                    <button type="button" class="btn btn-outline-dark w-50 rounded-pill btn-loading" v-if="loading === true"></button>
+                    <button type="submit" class="btn btn-outline-dark w-50 rounded-pill" v-if="loading != true">Login
+                    </button>
+                    <button type="button" class="btn btn-outline-dark w-50 rounded-pill btn-loading"
+                            v-if="loading === true"></button>
+                </div>
+
+                <div class="auth-bottom text-center mt-4">
+                    Not a member? <router-link :to="{name:'Register'}" href="javascript:void(0)" class=" ms-2 text-decoration-none fw-semibold text-dark">Create
+                    an account</router-link>
                 </div>
             </form>
         </div>
@@ -88,12 +97,12 @@ export default {
             this.loading = true;
             apiService.POST(apiRoutes.Login, this.param, (res) => {
                 this.loading = false;
-             if (res.status === 200){
-                 toaster.info(res.msg)
-                 window.location.reload()
-             }else {
-                 apiService.ErrorHandler(res.errors)
-             }
+                if (res.status === 200) {
+                    toaster.info(res.msg)
+                    window.location.href = '/admin/home';
+                } else {
+                    apiService.ErrorHandler(res.errors)
+                }
             })
         }
     }
