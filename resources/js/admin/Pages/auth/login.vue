@@ -10,6 +10,7 @@
                 <div class="logo text-center mb-5">
                     <img :src="`/images/Rahat-logo.png`" alt="logo" class="img-fluid">
                 </div>
+                <div class="error-report-g text-center"></div>
                 <div class="form-group position-relative mb-3">
                     <input type="text" class="form-control shadow-none rounded-pill" placeholder="Enter Your Email" v-model="param.email"
                            name="email">

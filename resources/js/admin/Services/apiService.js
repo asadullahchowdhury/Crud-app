@@ -61,7 +61,7 @@ const apiService = {
         $('.error-report-g').html('');
         $.each(errors, (i, v) => {
             if (i === 'error') {
-                $('.error-report-g').html('<p class="alert alert-danger">' + v + '</p>')
+                $('.error-report-g').html('<p class="alert alert-danger rounded-pill">' + v + '</p>')
             } else {
                 $('[name=' + i + ']').addClass('is-invalid');
                 $('[name=' + i + ']').closest('.form-group').find('.error-report').html(v);
