@@ -15,11 +15,4 @@ class AdminController extends BaseController
         return view('admin.app');
     }
 
-
-    public function login(Request  $request){
-        $rv = AdminAuthService::login($request);
-        return response()->json($rv, 200);
-    }
-
-
 }

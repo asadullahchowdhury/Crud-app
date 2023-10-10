@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class AdminAuthService
 {
@@ -18,7 +19,7 @@ class AdminAuthService
             $validator = Validator::make(
                 $request->all(),
                 [
-                    'email' => 'required|email|exists:admins,email',
+                    'email' => 'required|email',
                     'password' => 'required|min:6'
                 ]
             );
@@ -27,13 +28,9 @@ class AdminAuthService
                 return ['status' => 500, 'errors' => $validator->errors()];
             }
 
-            $user = User::where('email', $request->email)->first();
-            if($user->email_verified_at == null){
-                return ['status' => 500, 'errors' => ['error' => 'Account not verified']];
-            }
             $credential = ['email' => $request->email, 'password' => $request->password];
-            if (Auth::guard('admins')->attempt($credential, $request->remember)) {
-                return ['status' => 200, 'data' => Auth::guard('admins')->user()];
+            if (Auth::guard('admin')->attempt($credential, $request->remember)) {
+                return ['status' => 200, 'data' => Auth::guard('admin')->user()];
             } else {
                 return ['status' => 500, 'errors' => ['error' => 'Invalid Credentials! Please try again']];
             }
