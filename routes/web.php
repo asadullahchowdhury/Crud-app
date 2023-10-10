@@ -14,6 +14,6 @@ use App\Http\Controllers\AdminController;
 |
 */
 
-Route::get('/admin', [AdminController::class,'index'])->where('any','.*')->name('lvs.home');
-Route::get('/admin/{any}', [AdminController::class,'index'])->where('any','.*')->name('lvs.home');
-Route::get('/admin', function (){ return redirect()->route('lvs.home','home'); });
+Route::middleware('AdminLoginCheck')->get('/admin', [AdminController::class,'index'])->where('any','.*')->name('lvs.home');
+Route::middleware('AdminLoginCheck')->get('/admin/{any}', [AdminController::class,'index'])->where('any','.*')->name('lvs.home');
+Route::middleware('AdminLoginCheck')->get('/admin', function (){ return redirect()->route('lvs.home','home'); });

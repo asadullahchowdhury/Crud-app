@@ -24,6 +24,18 @@ Route::group(['middleware' => ['AdminAuth'], 'prefix' => 'auth'], function () {
     Route::post('register', [AdminAuthController::class, 'register'])->name('Auth.Register');
 });
 
+// Profile
+
+Route::group(
+    ['middleware' => ['AdminAuthReq'], 'prefix' => 'profile'],
+    function () {
+        Route::get('details', [AdminAuthController::class, 'profile_details'])->name('Admin.Profile.Details');
+        Route::post('update', [AdminAuthController::class, 'profile_update'])->name('Admin.Profile.Update');
+        Route::post('update/password', [AdminAuthController::class, 'profile_update_password'])->name('Admin.Profile.Update.Password');
+        Route::get('logout', [AdminAuthController::class, 'profile_logout'])->name('Admin.Profile.Logout');
+    }
+);
+
 
 //Product
 Route::prefix('product')->group(function () {

@@ -5,6 +5,10 @@ const apiRoutes = {
     // Auth
     Login: apiVersion + 'login',
     Register: apiVersion + 'register',
+    Logout: apiVersion + 'logout',
+
+    // Profile
+    Profile: apiVersion + 'profile/details',
 
 
     // product

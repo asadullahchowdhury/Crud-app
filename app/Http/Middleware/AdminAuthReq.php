@@ -17,7 +17,7 @@ class AdminAuthReq
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::guard('admin')->check()) {
+        if (Auth::check()) {
             return $next($request);
         }
         return response()->json(['status' => 401], 401);

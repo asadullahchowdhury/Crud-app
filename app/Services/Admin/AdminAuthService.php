@@ -76,4 +76,27 @@ class AdminAuthService
             return ['status' => 500, 'errors' => $e->getMessage(), 'line' => $e->getLine()];
         }
     }
+
+
+    public static function profile_details($request)
+    {
+        try {
+            $user_id = Auth::id();
+            $user = User::with('media')->where('id', $user_id)->first();
+            return ['status' => 200, 'data' => $user];
+        } catch (\Exception $e) {
+            return ['status' => 500, 'errors' => $e->getMessage(), 'line' => $e->getLine()];
+        }
+    }
+
+
+    public static function profile_logout($request)
+    {
+        try {
+            Auth::guard('users')->logout();
+            return ['status' => 200];
+        } catch (\Exception $e) {
+            return ['status' => 500, 'errors' => $e->getMessage(), 'line' => $e->getLine()];
+        }
+    }
 }
