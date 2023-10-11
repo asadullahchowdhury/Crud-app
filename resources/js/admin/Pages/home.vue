@@ -22,7 +22,7 @@ export default {
 
     methods: {
         getProfile(){
-            apiService.GET(apiRoutes.Profile, (res) =>{
+            apiService.POST(apiRoutes.Profile, (res) =>{
                 console.log(res)
             })
         }

@@ -19,6 +19,7 @@ class AdminAuthController extends Controller
 
     public function profile_details(Request $request)
     {
+
         $rv = AdminAuthService::profile_details($request);
         return response()->json($rv, 200);
     }    public function profile_logout(Request $request)

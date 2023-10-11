@@ -22,7 +22,7 @@ class AdminLoginCheck
     public function handle($request, Closure $next, $guard = null)
     {
         $path = Request::route()->getName();
-        if (Auth::guard('users')->check()) {
+        if (Auth::guard('admin')->check()) {
             if($path == 'lvs.auth') {
                 return redirect()->route('lvs.any', 'home');
             } else {

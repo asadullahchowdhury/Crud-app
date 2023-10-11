@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\AdminAuth;
 use App\Http\Middleware\AdminAuthReq;
+use App\Http\Middleware\AdminLoginCheck;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'AdminAuth' => AdminAuth::class,
         'AdminAuthReq' => AdminAuthReq::class,
+        'AdminLoginCheck' => AdminLoginCheck::class,
     ];
 }
