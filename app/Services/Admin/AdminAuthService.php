@@ -31,8 +31,9 @@ class AdminAuthService
             }
 
             $credential = ['email' => $request->email, 'password' => $request->password];
-            if (Auth::attempt($credential, $request->remember)) {
-                return ['status' => 200, 'data' => Auth::user()];
+            if (Auth::guard('admin')->attempt($credential, $request->remember)) {
+                $user = Auth::guard('admin')->user();
+                return ['status' => 200, 'data' =>  $user, 'msg' => 'Login successful'];
             } else {
                 return ['status' => 500, 'errors' => ['error' => 'Invalid Credentials! Please try again']];
             }

@@ -17,15 +17,11 @@ export default {
     },
 
     mounted() {
-        this.getProfile()
+
     },
 
     methods: {
-        getProfile(){
-            apiService.POST(apiRoutes.Profile, (res) =>{
-                console.log(res)
-            })
-        }
+
     }
 }
 </script>

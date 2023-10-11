@@ -21,17 +21,12 @@ const apiService = {
     },
 
     GET: (url, callback) => {
-        headers = {
-            'Content-Type': 'application/json; charset=utf-8',
-        }
         axios.get(url, {headers: headers}).then((response) => {
             if (response.status === 200) {
                 callback(response.data);
             }
         }).catch(err => {
             const error_code = parseInt(err.toLocaleString().replace(/\D/g, ""));
-            if (error_code === 403) {
-            }
             if (error_code === 401) {
             }
         })

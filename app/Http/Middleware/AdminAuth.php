@@ -17,7 +17,7 @@ class AdminAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check()) {
+        if (!Auth::guard('admin')->check()) {
             return $next($request);
         }
         return response()->json(['status' => 403, 'msg' => 'You are already logged in.'], 403);

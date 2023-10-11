@@ -99,7 +99,7 @@ export default {
                 this.loading = false;
                 if (res.status === 200) {
                     toaster.info(res.msg)
-                    window.location.href = '/admin/home';
+                    window.location.reload();
                 } else {
                     apiService.ErrorHandler(res.errors)
                 }
