@@ -24,18 +24,18 @@
                     </ul>
 
                    <div class="right-side-header">
-                       <div class="user-wrap d-flex align-items-center position-relative" @click="dropdownToggle()">
+                       <div class="user-wrap d-flex align-items-center position-relative cursor-pointer" @click="dropdownToggle()">
                            <div class="avatar-wrap shadow me-3">
                                <img :src="`/images/auth.svg`" alt="avatar">
                            </div>
                            <div class="user-info " >
-                               <div class="name mb-1 fw-semibold">Admin</div>
+                               <div class="name mb-1 fw-semibold" v-if="profileData != null">{{ profileData.first_name + profileData.last_name}}</div>
                                <div class="email text-muted">admin@gmail.com</div>
                            </div  >
 
                            <div class="header-dropdown-wrap shadow rounded-4 outsideClick">
                                <ul class="header-dropdown">
-                                   <li class="rounded-4"><a href="javascript:void(0)">Profile</a></li>
+                                   <li class="rounded-4"><router-link :to="{name:'profile'}" href="javascript:void(0)">Profile</router-link></li>
                                    <li class="rounded-4"><a class="text-danger" href="javascript:void(0)" @click="logout()">Logout</a></li>
                                </ul>
                            </div>
@@ -62,7 +62,7 @@ export default {
         return {
             logoutLoading: false,
             profileLoading: false,
-            profileData: '',
+            profileData: '' ,
         }
     },
     mounted() {

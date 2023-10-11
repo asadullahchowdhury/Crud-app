@@ -7,6 +7,7 @@ import Products from "../Pages/products.vue";
 import Categories from "../Pages/categories.vue";
 import Login from "../Pages/auth/login.vue";
 import Register from "../Pages/auth/register.vue";
+import Profile from "../Pages/profile.vue";
 
 
 const ROOT_URL = "/admin"
@@ -20,6 +21,7 @@ const routes = [
         path: ROOT_URL, name: 'Layout' , component:Layout,
         children:[
             {path: ROOT_URL + '/home', name: 'home', component: Home, meta: {title: 'Home'}},
+            {path: ROOT_URL + '/profile', name: 'profile', component: Profile, meta: {title: 'Profile'}},
             {path: ROOT_URL + '/products', name: 'products', component: Products, meta: {title: 'Products'}},
             {path: ROOT_URL + '/categories', name: 'categories', component: Categories, meta: {title: 'Categories'}},
         ]
