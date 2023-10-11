@@ -21,17 +21,12 @@ const apiService = {
     },
 
     GET: (url, callback) => {
-        headers = {
-            'Content-Type': 'application/json; charset=utf-8',
-        }
         axios.get(url, {headers: headers}).then((response) => {
             if (response.status === 200) {
                 callback(response.data);
             }
         }).catch(err => {
             const error_code = parseInt(err.toLocaleString().replace(/\D/g, ""));
-            if (error_code === 403) {
-            }
             if (error_code === 401) {
             }
         })
@@ -61,7 +56,7 @@ const apiService = {
         $('.error-report-g').html('');
         $.each(errors, (i, v) => {
             if (i === 'error') {
-                $('.error-report-g').html('<p class="alert alert-danger">' + v + '</p>')
+                $('.error-report-g').html('<p class="alert alert-danger rounded-pill">' + v + '</p>')
             } else {
                 $('[name=' + i + ']').addClass('is-invalid');
                 $('[name=' + i + ']').closest('.form-group').find('.error-report').html(v);

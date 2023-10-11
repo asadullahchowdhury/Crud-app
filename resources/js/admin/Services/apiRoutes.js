@@ -1,6 +1,16 @@
 const apiVersion = '';
 
 const apiRoutes = {
+
+    // Auth
+    Login: apiVersion + 'login',
+    Register: apiVersion + 'register',
+    Logout: apiVersion + 'logout',
+
+    // Profile
+    Profile: apiVersion + 'profile/details',
+
+
     // product
     ProductCreate: apiVersion + 'product/create',
     ProductUpdate: apiVersion + 'product/update',
