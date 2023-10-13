@@ -26,10 +26,10 @@ Route::group(['middleware' => ['AdminAuth'], 'prefix' => 'auth'], function () {
 
 // Profile
 Route::prefix('profile')->group(function () {
-    Route::post('details', [AdminAuthController::class, 'profile_details'])->name('Admin.Profile.Details');
+    Route::get('details', [AdminAuthController::class, 'profile_details'])->name('Admin.Profile.Details');
     Route::post('update', [AdminAuthController::class, 'profile_update'])->name('Admin.Profile.Update');
     Route::post('update/password', [AdminAuthController::class, 'profile_update_password'])->name('Admin.Profile.Update.Password');
-    Route::post('logout', [AdminAuthController::class, 'profile_logout'])->name('Admin.Profile.Logout');
+    Route::get('logout', [AdminAuthController::class, 'profile_logout'])->name('Admin.Profile.Logout');
 });
 
 

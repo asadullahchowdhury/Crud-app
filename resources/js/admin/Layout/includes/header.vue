@@ -80,7 +80,7 @@ export default {
         logout() {
             this.logoutLoading = true
 
-            apiService.POST(apiRoutes.Logout, (res) => {
+            apiService.GET(apiRoutes.Logout, (res) => {
                 this.logoutLoading = false
                 if (res.status === 200) {
                     toaster.info('Logout Successful', {
@@ -98,7 +98,7 @@ export default {
         // =========================
         getProfile() {
             this.profileLoading = true;
-            apiService.POST(apiRoutes.Profile, (res) => {
+            apiService.GET(apiRoutes.Profile, (res) => {
                 this.profileLoading = false;
                 if (res.status === 200) {
                     this.profileData = res.data

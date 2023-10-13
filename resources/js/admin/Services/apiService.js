@@ -28,6 +28,7 @@ const apiService = {
         }).catch(err => {
             const error_code = parseInt(err.toLocaleString().replace(/\D/g, ""));
             if (error_code === 401) {
+                store.dispatch('Logout');
             }
         })
     },

@@ -16,4 +16,4 @@ use App\Http\Controllers\AdminController;
 Route::middleware('AdminLoginCheck')->get('/admin/auth/{any}', [AdminController::class, 'index'])->where('any', '.*')->name('lvs.auth');
 Route::middleware('AdminLoginCheck')->get('/admin', [AdminController::class,'index'])->where('any','.*')->name('lvs.home');
 Route::middleware('AdminLoginCheck')->get('/admin/{any}', [AdminController::class,'index'])->where('any','.*')->name('lvs.any');
-Route::get('/admin', function (){ return redirect()->route('lvs.home','home'); });
+Route::get('/', function (){ return redirect()->route('lvs.home','home'); });
