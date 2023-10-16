@@ -6,6 +6,7 @@
              <div class="card-header bg-white">
                  <h3 class="card-title">Profile</h3>
              </div>
+             .
          </div>
      </div>
  </div>
